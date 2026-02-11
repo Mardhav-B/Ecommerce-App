@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { productService } from "@/services/product.service";
 import type { Product } from "@/types/product";
+import { useCart } from "@/context/CartContext";
+import Button from "@/components/ui/Button";
 
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (id) {
@@ -32,6 +35,9 @@ export default function ProductDetail() {
         <p className="mt-6 text-2xl font-semibold text-indigo-600">
           ${product.price}
         </p>
+        <Button className="mt-6" onClick={() => addToCart(product, 1)}>
+          Add to Cart
+        </Button>
       </div>
     </div>
   );
